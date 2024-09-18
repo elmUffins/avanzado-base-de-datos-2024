@@ -1,3 +1,4 @@
+import pedidosService from "../services/pedidos.service.js";
 import PedidosService from "../services/pedidos.service.js";
 
 const getPedidos = async (req, res) => {
@@ -36,7 +37,7 @@ const getPedidosByUser = async (req, res) => {
         Recordar que para cumplir con toda la funcionalidad deben:
 
             1. Utilizar el servicio de pedidos para obtener los pedidos del usuario
-            2. Si el usuario no tiene pedidos, devolver un mensaje de error (status 404)
+            2. Si el usuario no tiene pedidos, devolver una lista vacía
             3. Si el usuario tiene pedidos, devolver un json con los pedidos (status 200)
             4. Devolver un mensaje de error si algo falló (status 500)
         
@@ -69,9 +70,44 @@ const getPedidoById = async (req, res) => {
 };
 
 const createPedido = async (req, res) => {
-    
     // --------------- COMPLETAR ---------------
-    /*
+    try {
+        const { platos } = req.body;
+
+        if (!platos) {
+            return res.status(400).json({ message: "Falta el campo 'platos'" });
+        }
+
+        if (!Array.isArray(platos)) {
+            return res.status(400).json({ message: "El campo 'platos' debe ser un array" });
+        }
+
+        if (platos.length < 1) {
+            return res.status(400).json({ message: "El array de 'platos' debe tener al menos un plato" });
+        }
+
+        for (let plato of platos) {
+            if (!plato.id || !plato.cantidad) {
+                return res.status(400).json({ 
+                    message: "Todos los platos deben tener un id y una cantidad" 
+                });
+            }
+        }
+        const idUsuario = req.user.id;
+        const pedido = await PedidosService.createPedido(idUsuario, platos);
+
+        return res.status(201).json({
+            message: "Pedido creado exitosamente",
+            pedido: pedido
+        });
+
+    } catch (error) {
+        return res.status(500).json({
+            message: "Error al crear el pedido",
+            error: error.message
+        });
+    }
+     /*
         Recordar que para cumplir con toda la funcionalidad deben:
 
             1. Verificar que el body de la request tenga el campo platos
@@ -88,6 +124,30 @@ const createPedido = async (req, res) => {
 
 const aceptarPedido = async (req, res) => {
     // --------------- COMPLETAR ---------------
+    try {
+        const pedido = await pedidosService.getPedidoById(id);
+
+        if (!pedido)
+        {
+            return res.status(404).json({message: "No existe el pedido"})
+        }
+
+        if (pedido.estado != 'pendiente')
+        {
+            return res.status(400).json({message: "El pedido no está pendiente"})
+        }
+        else
+        {
+            pedido.estado = 'aceptado'
+        }
+        return res.status(200).json({message: "Pedido aceptado exitosamente"});
+    }
+    catch (error){
+        return res.status(500).json({
+            message: "Error al crear el pedido",
+            error: error.message
+        });
+    }
     /*
         Recordar que para cumplir con toda la funcionalidad deben:
 
