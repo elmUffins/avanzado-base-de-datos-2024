@@ -3,6 +3,27 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
 const register = async (req, res) => {
+    const { nombre, apellido, email, password } = req.body;
+
+    if (!nombre || !apellido || !email || !password) {
+        return res.status(400).json({ message: "Faltan campos" });
+    }
+
+    try {
+        const usuario = await UsuariosService.getUsuarioByEmail(email);
+        if (usuario) {
+            return res.status(400).json({message: "El email ya está en uso, cámbielo"});
+        }
+
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
+        await UsuariosService.createUsuario(nombre, apellido, email, hashedPassword);
+        res.status(201).json({ message: "Usuario creado con éxito" });
+
+        } catch (error) {
+            res.status(500).json({ message: "Error al crear el usuario" });
+        }
+
     // --------------- COMPLETAR ---------------
     /*
 
@@ -21,6 +42,28 @@ const register = async (req, res) => {
 };
 
 const login = async (req, res) => {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+        return res.status(400).json({ message: "Faltan campos" });
+    }
+
+    try {
+        const usuario = await UsuariosService.getUsuarioByEmail(email);
+        if (!usuario) {
+            return res.status(400).json({ message: "Usuario no encontrado" });
+        }
+
+        const validPassword = await bcrypt.compare(password, usuario.password);
+        if (!validPassword) {
+            return res.status(400).json({ message: "Contraseña incorrecta" });
+        }
+
+        const token = jwt.sign({ id: usuario.id }, 'vigisoscra', { expiresIn: '1h' });
+        res.status(200).json({ usuario, token });
+    } catch (error) {
+        res.status(500).json({ message: "Error al iniciar sesión" });
+    }
     // --------------- COMPLETAR ---------------
     /*
 
