@@ -2,6 +2,12 @@ import PedidosService from "../services/pedidos.service.js";
 
 const getPedidos = async (req, res) => {
     // --------------- COMPLETAR ---------------
+    try {
+        const pedidos = await PedidosService.getPedidos();
+        res.json(pedidos);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
     /*
         Recordar que para cumplir con toda la funcionalidad deben:
 
@@ -14,6 +20,18 @@ const getPedidos = async (req, res) => {
 
 const getPedidosByUser = async (req, res) => {
     // --------------- COMPLETAR ---------------
+    const { user } = req.body;
+
+    if (!user) return res.status(400).json({ message: "Se necesita un usuario" });
+
+    try {
+        const pedidos = await PedidosService.getPedidoByUser(user);
+        if (!pedidos)
+            return res.status(404).json({ message: "Carece este usuario de pedidos" });
+        res.json(pedidos);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
     /*
         Recordar que para cumplir con toda la funcionalidad deben:
 
@@ -26,6 +44,18 @@ const getPedidosByUser = async (req, res) => {
 };
 
 const getPedidoById = async (req, res) => {
+    const { id } = req.params;
+
+    if (!id) return res.status(400).json({ message: "Se necesita un ID" });
+
+    try {
+        const pedidos = await PedidosService.getPedidoById(id);
+        if (!pedidos)
+            return res.status(404).json({ message: "Pedido no encontrado" });
+        res.json(pedidos);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
     // --------------- COMPLETAR ---------------
     /*
         Recordar que para cumplir con toda la funcionalidad deben:
@@ -39,6 +69,7 @@ const getPedidoById = async (req, res) => {
 };
 
 const createPedido = async (req, res) => {
+    
     // --------------- COMPLETAR ---------------
     /*
         Recordar que para cumplir con toda la funcionalidad deben:
