@@ -5,6 +5,7 @@ const getPlatos = async (req, res) => {
         const platos = await PlatosService.getPlatos();
         res.json(platos);
     } catch (error) {
+        console.log(error)
         res.status(500).json({ message: error.message });
     }
 };
@@ -20,6 +21,7 @@ const getPlatoById = async (req, res) => {
             return res.status(404).json({ message: "Plato no encontrado" });
         res.json(plato);
     } catch (error) {
+        console.log(error)
         res.status(500).json({ message: error.message });
     }
 };
@@ -37,6 +39,7 @@ const createPlato = async (req, res) => {
         await PlatosService.createPlato(plato);
         res.json({ message: "Plato creado con éxito" });
     } catch (error) {
+        console.log(error)
         res.status(500).json({ message: error.message });
     }
 };
@@ -57,6 +60,7 @@ const updatePlato = async (req, res) => {
         await PlatosService.updatePlato(id, plato);
         res.json({ message: "Plato actualizado con éxito" });
     } catch (error) {
+        console.log(error)
         res.status(500).json({ message: error.message });
     }
 };
@@ -70,6 +74,7 @@ const deletePlato = async (req, res) => {
         await PlatosService.deletePlato(id);
         res.json({ message: "Plato eliminado con éxito" });
     } catch (error) {
+        console.log(error)
         res.status(500).json({ message: error.message });
     }
 };
@@ -86,6 +91,7 @@ const getPlatosByTipo = async (req, res) => {
         const platos = await PlatosService.getPlatosByTipo(tipo);
         res.json(platos);
     } catch (error) {
+        console.log(error)
         res.status(500).json({ message: error.message });
     }
 };

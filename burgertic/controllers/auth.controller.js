@@ -17,10 +17,12 @@ const register = async (req, res) => {
 
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
+        console.log(hashedPassword)
         await UsuariosService.createUsuario(nombre, apellido, email, hashedPassword);
         res.status(201).json({ message: "Usuario creado con éxito" });
 
         } catch (error) {
+            console.log(error)
             res.status(500).json({ message: "Error al crear el usuario" });
         }
 
@@ -62,6 +64,7 @@ const login = async (req, res) => {
         const token = jwt.sign({ id: usuario.id }, 'vigisoscra', { expiresIn: '1h' });
         res.status(200).json({ usuario, token });
     } catch (error) {
+        console.log(error)
         res.status(500).json({ message: "Error al iniciar sesión" });
     }
     // --------------- COMPLETAR ---------------
