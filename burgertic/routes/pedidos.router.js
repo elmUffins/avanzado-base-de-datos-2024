@@ -5,7 +5,7 @@ import { verifyAdmin, verifyToken } from "../middlewares/auth.middleware.js";
 const router = Router();
 
 router.get("/platos", verifyToken, verifyAdmin, PedidosController.getPedidos);
-router.get("/usuario/:id", verifyToken, PedidosController.getPedidosByUser);
+router.get("/usuario", verifyToken, PedidosController.getPedidosByUser);
 router.get("/:id", verifyToken, verifyAdmin, PedidosController.getPedidoById);
 router.post("/", verifyToken, PedidosController.createPedido);
 router.put("/:id/aceptar", verifyToken, verifyAdmin, PedidosController.aceptarPedido);

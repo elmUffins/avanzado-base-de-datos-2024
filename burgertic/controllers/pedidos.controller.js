@@ -20,7 +20,7 @@ const getPedidos = async (req, res) => {
 
 const getPedidosByUser = async (req, res) => {
     // --------------- COMPLETAR ---------------
-    const { user } = req.body;
+    const user = req.userId;
 
     if (!user) return res.status(400).json({ message: "Se necesita un usuario" });
 
