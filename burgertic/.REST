@@ -33,7 +33,7 @@ Authorization: Bearer <admin_token>
 ### Create pedido
 POST http://localhost:9000/pedidos HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer <user_token>
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNzI2ODQyODQ3LCJleHAiOjE3MjY4NDY0NDd9.LQWWTQ7NIyV9H3r34VI-KwdXnSTPmnGBqgF1vsOnfC8
 
 {
     "platos": [

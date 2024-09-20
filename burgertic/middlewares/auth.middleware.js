@@ -16,6 +16,8 @@ export const verifyToken = async (req, res, next) => {
         req.userId = verification.id;
         next();
     } catch (error) {
+        console.log(error)
+        console.log(token)
         return res.status(401).json({ message: "Token inválido" });
     }
 
