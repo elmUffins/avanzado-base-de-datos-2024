@@ -25,7 +25,7 @@ const getPedidosByUser = async (req, res) => {
     if (!user) return res.status(400).json({ message: "Se necesita un usuario" });
 
     try {
-        const pedidos = await PedidosService.getPedidoByUser(user);
+        const pedidos = await PedidosService.getPedidosByUser(user);
         if (!pedidos) {
             res.json([]);
         }

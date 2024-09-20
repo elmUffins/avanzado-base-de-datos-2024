@@ -3,21 +3,22 @@ import UsuariosService from "../services/usuarios.service.js";
 
 export const verifyToken = async (req, res, next) => {
     const authHeader = req.headers.authorization;
-
+    console.log(authHeader)
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
         return res.status(401).json({ message: "Token no proporcionado o formato incorrecto" });
     }
-
+    
     // Del header, se asigna el token a la variable 'token', ignorando el 'Bearer'
     const token = authHeader.split(" ")[1];
-
+    console.log(token)
     try {
         const verification = jwt.verify(token, 'vigisoscra');
+        console.log(verification)
         req.userId = verification.id;
         next();
     } catch (error) {
         console.log(error)
-        console.log(token)
+        
         return res.status(401).json({ message: "Token inválido" });
     }
 
