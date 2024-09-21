@@ -10,10 +10,8 @@ export const verifyToken = async (req, res, next) => {
     
     // Del header, se asigna el token a la variable 'token', ignorando el 'Bearer'
     const token = authHeader.split(" ")[1];
-    console.log(token)
     try {
         const verification = jwt.verify(token, 'vigisoscra');
-        console.log(verification)
         req.userId = verification.id;
         next();
     } catch (error) {
@@ -37,11 +35,11 @@ export const verifyToken = async (req, res, next) => {
 };
 
 export const verifyAdmin = async (req, res, next) => {
-    const { id } = req.params;
+    const userId = req.userId;
 
     try {
-        const user = await UsuariosService.getUsuarioById(id);
-        if (!user || !user.isAdmin) {
+        const user = await UsuariosService.getUsuarioById(userId);
+        if (!user || !user.admin) {
             return res.status(403).json({ message: "ARAFUE" });
         }
         next();

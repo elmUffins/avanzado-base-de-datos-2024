@@ -1,18 +1,14 @@
-import http from 'http';
+import bcrypt from 'bcryptjs';
 
-const options = {
-  hostname: 'localhost',
-  port: process.env.PORT || 3000,
-  path: '/',
-  method: 'GET'
-};
+const password = 'oyepe';
+const saltRounds = 10;
 
-const req = http.request(options, res => {
-  console.log(`STATUS: ${res.statusCode}`);
+bcrypt.genSalt(saltRounds, (err, salt) => {
+    if (err) throw err;
+
+    bcrypt.hash(password, salt, (err, hash) => {
+        if (err) throw err;
+
+        console.log(`Hashed password: ${hash}`);
+    });
 });
-
-req.on('error', error => {
-  console.error(`Problem with request: ${error.message}`);
-});
-
-req.end();
