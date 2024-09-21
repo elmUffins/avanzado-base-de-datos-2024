@@ -136,7 +136,7 @@ const aceptarPedido = async (req, res) => {
             return res.status(404).json({ message: "Pedido no encontrado" });
         }
 
-        const pedido = pedidos[0]; // Access the first element of the array
+        const pedido = pedidos[0]; 
         console.log(`Estado: '${pedido.estado}'`);
 
         if (pedido.estado !== "pendiente") {
@@ -176,7 +176,7 @@ const comenzarPedido = async (req, res) => {
             return res.status(404).json({ message: "Pedido no encontrado" });
         }
 
-        const pedido = pedidos[0]; // Access the first element of the array
+        const pedido = pedidos[0]; 
 
         if (pedido.estado !== "aceptado") {
             return res.status(400).json({ message: "El pedido no está en estado aceptado" });
@@ -216,7 +216,7 @@ const entregarPedido = async (req, res) => {
             return res.status(404).json({ message: "Pedido no encontrado" });
         }
 
-        const pedido = pedidos[0]; // Access the first element of the array
+        const pedido = pedidos[0]; 
 
         if (pedido.estado !== "en camino") {
             return res.status(400).json({ message: "El pedido no está en estado en camino" });
